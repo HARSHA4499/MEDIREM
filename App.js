@@ -17,6 +17,7 @@ export default function App() {
       <Tab.Navigator tabBarOptions={{activeBackgroundColor:"coral",labelStyle:{fontSize:18,padding:10,color:"black"} }}>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Add" component={AddRemainder}/>
+        <Tab.Screen name="Notes" component={HealthNotes}/>
       </Tab.Navigator>
     </NavigationContainer>
     
