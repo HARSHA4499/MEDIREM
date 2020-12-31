@@ -1,5 +1,5 @@
-import React,{useState} from 'react'
-import {Text,View,StyleSheet, TextInput,TouchableOpacity,Alert,Platform} from 'react-native'
+import React,{useState,useEffect} from 'react'
+import {Text,View,StyleSheet, TextInput,ScrollView,TouchableOpacity,Alert,Platform,TouchableWithoutFeedback,Keyboard} from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,8 +10,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Moment from 'react-moment';
 import 'moment-timezone';
 import moment from 'moment'
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Home} from "./Home";
 
-function AddRemainder() {
+
+
+function AddRemainder({navigation}){
+    const [med,setMed]=useState("")
+    const [times,setTimes]=useState("")
+    const [dates,setDates]=useState("")
     const [medname, setMedname] = useState("")
     const [clr,setClr]=useState("black")
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -34,6 +42,7 @@ function AddRemainder() {
      
       const handleConfirmD = (date) => {
         console.warn("A date has been picked:",moment(date).format("MMM Do YYYY"));
+        setDates(moment(date).format("MMM Do YYYY"))
         hideDatePicker();
     };
 
@@ -47,22 +56,29 @@ function AddRemainder() {
      
       const handleConfirmT = (time) => {
         console.warn("A Time has been picked:",moment(time).format("hh:mm"));
+        setTimes(moment(time).format("hh:mm"))
         hideTimePicker();
     };
 
-
     
+
+   
     
     
 
     return (
+        <ScrollView>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
         <View style={styles.main}>
             <View style={styles.row1}>
                 <Text style={{fontSize:17,fontWeight:'500',paddingBottom:5}}>Medicine Name</Text>
                 <TextInput
                 style={{paddingTop:10,fontSize:17}}
                 placeholder="Enter Medicine Name"
-                onChangeText={changeHandler}
+                onChangeText={text => setMedname(text)}
+                clearButtonMode='always'
+                value={medname}
+                
                 />
                 </View>
             <View style={styles.row2}>
@@ -117,7 +133,35 @@ function AddRemainder() {
                     />
                 </View>
             </View>
+            <View style={{paddingTop:100}}>
+            <Button
+                title="Done"
+                onPress={() => {
+                    setMed(medname)
+                /* 1. Navigate to the Home route with params */
+                navigation.navigate('Home', {
+                    med:med,
+                    date:dates,
+                    time:times
+                });
+                
+                Alert.alert(
+                'Medicine Added',
+                medname,
+                [
+                    { text: 'OK', onPress: () => setMedname("") }
+                ],
+                );
+                                }}
+            />
+                            
+            </View>
+            
         </View>
+        
+    
+    </TouchableWithoutFeedback>
+    </ScrollView>
     )
 };
 

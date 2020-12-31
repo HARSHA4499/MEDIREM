@@ -1,28 +1,19 @@
 import React from 'react'
-import {StyleSheet,Text,View,TouchableOpacity} from 'react-native'
+import {StyleSheet,Text,View,TouchableOpacity,useWindowDimensions,ScrollView} from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import {Button} from 'react-native-elements';
 import AddRemainder from './AddRemainder';
 import { Alert } from 'react-native';
 
 
-
-
-const htmlContent=()=>{
-    <h1>this is a heading</h1>
-}
-
-function Home() {
+function Home({ route, navigation }) {
+    
     return (
         <View style={styles.heading}>
-
+            <Text style={{textAlign:'center',fontSize:20,color:'black',paddingTop:30}}>MEDIREM</Text>
             <Text style={styles.text}>
-                MEDIREM
+                1){route.params?.med} on {route.params?.date} at {route.params?.time}
             </Text>
-            <View>
-                <HTML html={htmlContent}/>
-            </View>
-
             
             <TouchableOpacity style={styles.icon} >
                 <AntDesign name="pluscircle" size={40} color="black" />
@@ -37,8 +28,8 @@ const styles=StyleSheet.create({
         
     },
     text:{
-        textAlign:"center",
-        fontSize:30,
+        paddingLeft:30,
+        fontSize:20,
         color:'black',
         paddingTop:30
     },
