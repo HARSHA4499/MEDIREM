@@ -13,6 +13,7 @@ import moment from 'moment'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Home} from "./Home";
+import firebase from './Firebase'
 
 
 
@@ -59,6 +60,16 @@ function AddRemainder({navigation}){
         setTimes(moment(time).format("hh:mm"))
         hideTimePicker();
     };
+
+    function addRem(){
+        firebase.firestore().collection("remainders").add({
+            name:medname,
+            date:dates,
+            time:times,
+            id:Math.floor(Math.random()*100)+1
+
+        })
+    }
 
     
 
@@ -137,13 +148,10 @@ function AddRemainder({navigation}){
             <Button
                 title="Done"
                 onPress={() => {
-                    setMed(medname)
+                    setMed(medname);
+                    addRem(medname);
                 /* 1. Navigate to the Home route with params */
-                navigation.navigate('Home', {
-                    med:med,
-                    date:dates,
-                    time:times
-                });
+                navigation.navigate('Home')
                 
                 Alert.alert(
                 'Medicine Added',

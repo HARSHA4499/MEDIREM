@@ -1,91 +1,44 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View,useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
+import * as firebase from 'firebase'
+import 'firebase/firestore'
+import { Button } from 'react-native';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA-wqHawpX2QfwFDkL58d57n9i6M6BB_-E",
+    authDomain: "medirem-5931a.firebaseapp.com",
+    databaseURL: "https://medirem-5931a-default-rtdb.firebaseio.com",
+    projectId: "medirem-5931a",
+    storageBucket: "medirem-5931a.appspot.com",
+    messagingSenderId: "251646931282",
+    appId: "1:251646931282:web:2a746cbf1b9729dfd4ca8b",
+    measurementId: "G-8JD7T6WJD1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db=firebase.firestore();
 
 
-const styles=StyleSheet.create({
-    container:{
-        flex:1,
-        marginTop:50,
+  
+  function Htmlcheck() {
+      return (
+        db.collection('remainders').get().then((snapshot)=>{
+            snapshot.docs.forEach(doc=>{
+                alert(doc.data())
+            })
+        })
+      )
+  }
+  
+  export default Htmlcheck
+  
 
-    },
-});
 
-const htmlContent = `
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
-</head>
-<body>
 
-<h2>HTML Table</h2>
 
-<table>
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-  </tr>
-</table>
 
-</body>
-</html>
 
-`;
 
-const Htmlcheck=()=>{
-    const contentWidth = useWindowDimensions().width;
-    return(
-    <View style={styles.container}>
-        <WebView source={{html: htmlContent}} ContentWidth={contentWidth}/>
-    </View>
-    )};
-
-export default Htmlcheck;

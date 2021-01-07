@@ -1,11 +1,12 @@
 import React,{useState} from 'react'
+import { StyleSheet, Text, View,useWindowDimensions } from 'react-native';
 
 function HealthNotes() {
     const [notes, setNotes] = useState("")
     return (
-        <div>
-            
-        </div>
+        <View>
+            <Text>hardha vardhan</Text>
+        </View>
     )
 }
 
