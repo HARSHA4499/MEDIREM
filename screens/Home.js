@@ -1,11 +1,12 @@
 import React,{useEffect} from 'react'
-import {StyleSheet,Text,View,TouchableOpacity,useWindowDimensions,ScrollView} from 'react-native'
+import {StyleSheet,Text,View,TouchableOpacity,useWindowDimensions,ScrollView, FlatList, SafeAreaView} from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import {Button} from 'react-native-elements';
 import { Alert } from 'react-native';
 import firebase from './Firebase'
 import { useState } from 'react';
 import { useIsFocused } from '@react-navigation/native'
+import HeaderFile from './HeaderFile'
 
 
 
@@ -53,48 +54,52 @@ function Home(props) {
     return <Text>...Loading</Text>
   }
 
+    const pressHandler=(item)=>{
+      Alert.alert(
+        'Med Details',
+        (item.date+" at "+item.time),
+        [
+            { text: 'OK' }
+        ],
+        );
+    }
 
 
     
     
     return (
-        <View style={styles.heading}>
-            <Text>Remainders</Text>
-        <View style={{marginTop:30}}>
-            <Text>remainders</Text>
-            {rems.map((rem)=>(
-                <View key={rem.id} >
-                <Text>{rem.id}</Text>
-                <Text>{rem.time}</Text>
-                <Text>{rem.name}</Text>
-                <Text>{rem.date}</Text>
-                <Text></Text>
-                </View>
-            ))}
-    </View>
+        <View style={{flex:1}}>
+          <HeaderFile/>
+          <View style={styles.container}>
+            <FlatList 
+              keyExtractor={(item)=>item.id.toString()}
+              data={rems}
+              renderItem={({item})=>(
+                <TouchableOpacity onPress={()=>pressHandler(item)}>
+                <Text style={styles.item}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+              />
+          </View>
         </View>
     )
 }
 
 const styles=StyleSheet.create({
-    heading:{
-        flex:1,
-        
+    container:{
+      flex:1,
+      backgroundColor:"white",
+      paddingTop:30,
+      paddingHorizontal:-10,
+      marginHorizontal:5,
+      
     },
-    text:{
-        paddingLeft:30,
-        fontSize:20,
-        color:'black',
-        paddingTop:30
-    },
-    icon:{
-        flex:1,
-        justifyContent:'flex-end',
-        textAlign:'center',
-        paddingBottom:10,
-        marginLeft:135,
-
-
+    item:{
+      marginTop:24,
+      padding:10,
+      backgroundColor:'pink',
+      fontSize:20,
+      fontFamily:'nunito-bold'
     }
 
 });

@@ -56,8 +56,9 @@ function AddRemainder({navigation}){
     };
      
       const handleConfirmT = (time) => {
+        console.warn("harshahahahhahah")
         console.warn("A Time has been picked:",moment(time).format("hh:mm"));
-        setTimes(moment(time).format("hh:mm"))
+        setTimes(moment(time).format("hh:mm a"))
         hideTimePicker();
     };
 
