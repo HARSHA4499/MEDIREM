@@ -9,17 +9,13 @@ import {Header} from 'react-native-elements';
 
 
 
-const getFonts=()=>Font.loadAsync({
-    'nunito-regular':require('../assets/fonts/Nunito-Regular.ttf'),
-    'nunito-bold':require('../assets/fonts/Nunito-Bold.ttf')
-});
 
 
 
 function HeaderFile() {
-    const [fontsLoaded,setFontsLoaded]=useState(false)
+    
 
-    if(fontsLoaded){
+    
         return(
             <View style={styles.container}>
                 <Header
@@ -39,16 +35,8 @@ function HeaderFile() {
                 />
             </View>
         )
-    }
-    else{
-        return (
-            <AppLoading
-            startAsync={getFonts}
-            onFinish={()=>setFontsLoaded(true)}/>
-        )
-
-
-    }
+    
+    
     
 }
 

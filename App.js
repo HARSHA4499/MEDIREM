@@ -9,6 +9,10 @@ import { TabBarIOS } from 'react-native';
 import HealthNotes from './screens/HealthNotes'
 import Firebase from './screens/Firebase';
 import FirebaseFile from './screens/FirebaseFile'
+import { useState } from 'react';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font'
+
 
 
 // var db=firebase.firestore();
@@ -25,27 +29,42 @@ import FirebaseFile from './screens/FirebaseFile'
 
 const Tab=createBottomTabNavigator();
 
+
+const getFonts=()=>Font.loadAsync({
+  'nunito-regular':require('./assets/fonts/Nunito-Regular.ttf'),
+  'nunito-bold':require('./assets/fonts/Nunito-Bold.ttf')
+});
+
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false)
 
   
 
      
-  
-  return (
+  if(fontsLoaded){
+    return (
 
-    <NavigationContainer >
-      <Tab.Navigator tabBarOptions={{activeBackgroundColor:"coral",labelStyle:{fontSize:18,padding:10,color:"black"} }}>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Add" component={AddRemainder}/>
-        <Tab.Screen name="Notes" component={HealthNotes}/>
-      </Tab.Navigator>
-    </NavigationContainer>
+      <NavigationContainer >
+        <Tab.Navigator tabBarOptions={{activeBackgroundColor:"coral",labelStyle:{fontSize:18,padding:10,color:"black"} }}>
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Add" component={AddRemainder}/>
+          <Tab.Screen name="Notes" component={HealthNotes}/>
+        </Tab.Navigator>
+      </NavigationContainer>
 
-    
-    
-    
-    
-  );
+      
+      
+      
+      
+    );
+  }
+  else{
+    return (
+      <AppLoading
+      startAsync={getFonts}
+      onFinish={()=>setFontsLoaded(true)}/>
+  )
+  }
 }
 
 const styles = StyleSheet.create({
