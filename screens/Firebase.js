@@ -4,7 +4,7 @@ import 'firebase/firestore'
 
 
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyA-wqHawpX2QfwFDkL58d57n9i6M6BB_-E",
   authDomain: "medirem-5931a.firebaseapp.com",
   databaseURL: "https://medirem-5931a-default-rtdb.firebaseio.com",

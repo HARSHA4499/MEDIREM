@@ -36,11 +36,56 @@
     "react-native-screens": "^2.9.0",
     "react-native-vector-icons": "^7.0.0",
     "react-native-webview": "^9.4.0",
+    "react-navigation-latest": "npm:react-navigation@^4.4.3",
     "react-script-tag": "^1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "babel-preset-expo": "~8.1.0"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "name": "Expo Firebase Auth",
+    "slug": "expo-firebase-auth",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "facebookScheme": "fb684399708713036",
+    "facebookAppId": "684399708713036",
+    "facebookDisplayName": "Expo-firebase-auth",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.expofirebaseauth",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.491981381926-q4p61hua940gna95mf1ps2j2d9952b0s"
+        }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "android": {
+        "package": "com.expofirebaseauth",
+        "googleServicesFile": "./google-services.json"
+    }
+  }
+
+
 }

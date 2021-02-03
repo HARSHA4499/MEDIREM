@@ -184,7 +184,6 @@ function AddRemainder({navigation}){
     }
 
     function getColor(){
-        console.log("aaaaaaaaaa"+clr1)
         if(clr1=="green"){
             console.log("hatdjhdvfvjhd")
             setSc(1);

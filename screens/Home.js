@@ -163,27 +163,36 @@ function Home() {
     
     
     return (
+
         <View style={{flex:1}}>
+
           <HeaderFile/>
+
           <View style={styles.container}>
             <FlatList 
               keyExtractor={(item)=>item.id}
               data={rems}
               horizontal={false}
               renderItem={({item})=>(
-                <View>
-                <View><GetIcon item={item} sytle={styles.icon}/></View>
-                <TouchableOpacity onPress={()=>pressHandler(item)} activeOpacity={0.8} >
+                <SafeAreaView>
+                <View style={{flexDirection:"row"}}>
+                <View style={{marginLeft:-30}}><GetIcon item={item} sytle={styles.icon}/></View>
+                <TouchableOpacity onPress={()=>pressHandler(item)} style={{marginHorizontal:10,borderWidth:1.5,margin:10,width:215,height:65,backgroundColor:"pink"}} activeOpacity={0.8} >
                 <Text style={styles.item}>{item.name}{item.sc}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginLeft:-10,marginTop:30}}>
                 <AntDesign name="delete" size={30} color="red" style={styles.delete} onPress={()=>deleteHandler(item)}  />
                 </TouchableOpacity>
                 </View>
+                </SafeAreaView>
                 
               )}
               
               />
           </View>
+
         </View>
+
     )
 }
 
@@ -195,28 +204,29 @@ const styles=StyleSheet.create({
       
       
       
+      
     },
     
     
     item:{
-      backgroundColor:"pink",
-      paddingLeft:15,
-      paddingRight:5,
-      paddingTop:15,
-      paddingBottom:15,
+      padding:5,
       fontFamily:"nunito-bold",
-      marginTop:20,
       fontSize:20,
-      flex:1,
       justifyContent:"center",
-      alignItems:"center"    
+      alignItems:"center",
+      borderStyle:"solid",
+      width:220,
+      height:100,
+
+      
+
+      
     },
     icon:{
-      marginLeft:150,
-      backgroundColor:"red"
+
     },
     delete:{
-      marginLeft:150
+      marginLeft:5
     },
     loading:{
       fontFamily:"nunito-bold",
