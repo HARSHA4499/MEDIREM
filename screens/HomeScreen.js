@@ -9,16 +9,20 @@ import Navigation from './Navigation'
 
 
 
+
 var unsubscribe;
 
 class HomeScreen extends React.Component {
-  state = { user: {} };
+  state = { user: {},EMAIL:"" };
   componentDidMount() {
     unsubscribe=firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         this.setState({user: user});
       }
+      firebase.firestore().collection("users").doc(user.email).set({email:user.email})
     })
+
+
   }
   componentWillUnmount() {
     unsubscribe();
@@ -27,13 +31,13 @@ class HomeScreen extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Text style={{color:"blue",fontFamily:"nunito-bold",fontSize:20,marginLeft:30}}>{this.state.user.email}</Text>
+          <Text style={{color:"blue",fontFamily:"nunito-bold",fontSize:20,marginLeft:30,marginTop:5}}>{this.state.user.email}</Text>
           <Button title="Log Off" buttonStyle={{marginLeft:40}}  onPress={() => {
             firebase.auth().signOut();
           }}/>
           </View>
           <View style={{flex:1}}>
-          <Navigation />
+          <Navigation  />
           </View>
       </SafeAreaView>
     );
