@@ -8,9 +8,6 @@ import {  SafeAreaView, Button } from 'react-native';
 import firebase from './Firebase';
 import { StyleSheet, Text, View,ScrollView, TouchableWithoutFeedback,Keyboard} from 'react-native';
 
-
-
-
 const Tab=createBottomTabNavigator();
 
 

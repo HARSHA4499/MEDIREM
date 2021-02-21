@@ -31,8 +31,8 @@ class HomeScreen extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Text style={{color:"blue",fontFamily:"nunito-bold",fontSize:20,marginLeft:30,marginTop:5}}>{this.state.user.email}</Text>
-          <Button title="Log Off" buttonStyle={{marginLeft:40}}  onPress={() => {
+          <Text style={{color:"blue",fontFamily:"nunito-bold",fontSize:20,marginLeft:0,marginTop:30}}>{this.state.user.email}</Text>
+          <Button title="Log Off" buttonStyle={{marginLeft:5,marginTop:25}}  onPress={() => {
             firebase.auth().signOut();
           }}/>
           </View>

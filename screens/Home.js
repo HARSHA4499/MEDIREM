@@ -17,6 +17,9 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useRef } from 'react';
 
+let dateTimes=[]
+let secondsInfo=[]
+
 
 
 
@@ -24,8 +27,8 @@ import { useRef } from 'react';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
   }),
 });
 
@@ -38,6 +41,7 @@ function Home() {
 
 
     const [rems, setRems] = useState([])
+    const [size,setSize]=useState(0)
     const [loading,setLoading]=useState(false)
     const [count,setCount]=useState(1)
 
@@ -77,7 +81,7 @@ function Home() {
     setLoading(true);
 
  
-    ref.get().then((snapshot)=>{
+    ref.orderBy("date").get().then((snapshot)=>{
       const items=[];
       snapshot.forEach((doc)=>{
         items.push(doc.data());
@@ -97,17 +101,152 @@ function Home() {
 //   });
 
 
+function PresentDateTime(d){
+  var k=d
+  d=d.toString().slice(4,15)
+  d=d.toString().slice(0,6)+"th"+d.toString().slice(6,11)
+  var t=" "+k.toString().slice(16,24)
+  if(d.length==12){
+          
+    var mon= "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(d.slice(0,3).toString()) / 3 + 1 ;
+    if(mon.toString().length==1){
+      mon="0"+mon.toString()
+      
+    }
+
+    d=d.slice(8,12)+"/"+mon.toString()+"/"+"0"+d.slice(4,5)
+
+    return d+t;
+    
+
+    
+  }
+
+  else{
+    
+    var mon= "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(d.slice(0,3).toString()) / 3 + 1 ;
+    if(mon.toString().length==1){
+      mon="0"+mon.toString()
+    }
+    d=d.slice(9,13)+"/"+mon.toString()+"/"+d.slice(4,6);
+    return d+t;
+
+  }
+}
+
+  
+
+
   useEffect(()=>{
     getRems();
   },[isFocused,count]);
+
+
 
   useEffect(()=>{
     (()=>registerForPushNotificationsAsync())();
   },[]);
 
+  useEffect(()=>{
+    ref.get().then(function(querySnapshot) {      
+      setSize(querySnapshot.size);  // will return the collection size
+   });
+  },[isFocused])
+
+
+  useEffect(()=>{
+    
+      ref.orderBy("date").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          var da=doc.data().date
+          var ti=doc.data().time
+          var d=doc.data().date
+          var t=doc.data().time
+          var m=doc.data().name
+          
+          
+          if(d.length==12){
+            
+            var mon= "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(d.slice(0,3).toString()) / 3 + 1 ;
+            if(mon.toString().length==1){
+              mon="0"+mon.toString()
+            }
+
+            d=d.slice(8,12)+"/"+mon.toString()+"/"+"0"+d.slice(4,5)
+            
+
+            
+          }
+
+          else{
+            
+            var mon= "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(d.slice(0,3).toString()) / 3 + 1 ;
+            if(mon.toString().length==1){
+              mon="0"+mon.toString()
+            }
+            d=d.slice(9,13)+"/"+mon.toString()+"/"+d.slice(4,6);
+
+          }
+          if(t.slice(6,8)=="pm"){
+            var temp=(Number(t.slice(0,2))+12).toString()
+            t=temp+":"+t.slice(3,5).toString()+":00"
+          }
+          else if(t.slice(0,2).toString()!=="12"){
+            t=t.slice(0,2).toString()+":"+t.slice(3,5).toString()+":00"
+            console.log(t)
+
+          }
+          else{
+            t="00"+":"+t.slice(3,5).toString()+":00"
+            console.log(t)
+          }
+
+          var dt=d+" "+t
+          var obj={dt:dt,m:m,da:da,ti:ti}
+          dateTimes.push(obj)
+
+      });
+      var count=0
+      dateTimes.map(item=>{
+        const diffInMilliseconds = (new Date(item.dt) -new Date(PresentDateTime(new Date())));
+        
+        secondsInfo.push({second:parseInt(diffInMilliseconds),m:item.m,da:item.da,ti:item.ti,bool:false})
+        
+        count+=1
+        
+        
+        if(count==dateTimes.length){
+          
+          
+        
+          secondsInfo.map(data=>{
+            if(data.second>0 && data.bool==false){
+              
+              console.log(data.second)
+
+          setTimeout(async () => {
+            await sendPushNotification(expoPushToken,data.m,data.da,data.ti);
+          },data.second)
+           
+        }
+        data.bool=true;
+      }
+          )}
+        
+      })
+  });
+},[size])
+
+
+  
+
   if(loading){
     return <Text style={styles.loading}>...Loading</Text>
   }
+
+
+
+   
 
     const pressHandler=(item)=>{
       Alert.alert(
@@ -163,46 +302,48 @@ function Home() {
     function GetIcon(props){
       if(props.item.sc==1){
         return(
-          <FontAwesome5 name="tablets" size={40} color={"black"} style={{paddingTop:20} } />
+          <FontAwesome5 name="capsules" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30} } />
         )
       }
       else if(props.item.sc==2){
         return(
-          <Fontisto name="tablets" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <Fontisto name="tablets" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
         )
       }
       else if(props.item.sc==3){
         return(
-          <Fontisto name="drug-pack" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <Fontisto name="drug-pack" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
           )
       }
       else if(props.item.sc==4){
         return(
-          <Fontisto name="injection-syringe" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <Fontisto name="injection-syringe" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
           )
       }
       else if(props.item.sc==5){
         return(
-          <FontAwesome5 name="pills" size={40} color={"black"} style={{paddingTop:20}} />
+          <FontAwesome5 name="pills" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}} />
           )
       }
       else if(props.item.sc==6){
         return(
-          <Fontisto name="pills" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <Fontisto name="pills" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
           )
       }
       else if(props.item.sc==7){
         return(
-          <MaterialCommunityIcons name="pill" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <MaterialCommunityIcons name="pill" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
           )
       }
       else if(props.item.sc==8){
         return(
-          <FontAwesome name="medkit" size={40} color={"black"} style={{paddingTop:20,paddingLeft:40}}/>
+          <FontAwesome name="medkit" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
           )
       }
       else{
-        return;
+        return(
+          <FontAwesome name="medkit" size={40} color={"black"} style={{paddingTop:20,paddingLeft:30}}/>
+        );
       }
       
     }
@@ -229,7 +370,7 @@ function Home() {
                 <View style={{flexDirection:"row"}}>
                 <View style={{marginLeft:-30}}><GetIcon item={item} sytle={styles.icon}/></View>
                 <TouchableOpacity onPress={()=>pressHandler(item)} style={{marginHorizontal:10,borderWidth:1.5,margin:10,width:215,height:65,backgroundColor:"pink"}} activeOpacity={0.8} >
-                <Text style={styles.item}>{item.name}{item.sc}</Text>
+                <Text style={styles.item}>{item.name}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginLeft:-10,marginTop:30}}>
                 <AntDesign name="delete" size={30} color="red" style={styles.delete} onPress={()=>deleteHandler(item)}  />
@@ -241,24 +382,19 @@ function Home() {
               
               />
           </View>
-          <Button
-        title="Press to Send Notification"
-        onPress={async () => {
-          await sendPushNotification(expoPushToken);
-        }}/>
 
         </View>
 
     )
 }
 
-async function sendPushNotification(expoPushToken) {
+async function sendPushNotification(expoPushToken,mesg,da,ti) {
   const message = {
     to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
+    sound: "default",
+    title: mesg,
+    body: da.toString()+" at "+ti.toString(),
+    data: { someData: 'Important' },
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -271,6 +407,8 @@ async function sendPushNotification(expoPushToken) {
     body: JSON.stringify(message),
   });
 }
+
+
 
 async function registerForPushNotificationsAsync() {
   let token;

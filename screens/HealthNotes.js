@@ -130,22 +130,6 @@ function HealthHome({navigation})
     
     return (
         <View style={{flex:1,backgroundColor:"white"}}>
-  
-        {/* <Header
-                        backgroundColor="coral"
-                        statusBarProps={{ barStyle: 'light-content' }}
-                        barStyle="light-content" // or directly
-                        centerComponent={{ text: 'Health Notes', style: { paddingBottom:10,color: 'black',fontFamily:'nunito-bold',fontSize:25 } }}
-                        containerStyle={{
-                            borderColor:"blue",
-                            marginLeft:-10,
-                            marginRight:-10
-                            
-
-                        }}
-                        
-                        
-                /> */}
         <View style={{flex:1}}>
             <FlatList 
               keyExtractor={(item)=>item.id}
@@ -171,8 +155,7 @@ function HealthHome({navigation})
         <AntDesign name="pluscircle" size={35} color="black"  style={styles.plus} />
         </TouchableOpacity>
         </View>
-       
-    )
+         )
 
 }
 
@@ -207,7 +190,7 @@ function AddNotes({navigation}){
   <SafeAreaView>
   <KeyboardAwareScrollView>
      <View>
-      <Text style={{fontSize:17,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Doctor Name</Text>
+      <Text style={{fontSize:20,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Doctor Name</Text>
       <TextInput
                 style={{padding:10,fontSize:17}}
                 placeholder="Enter Doctor Name"
@@ -216,7 +199,7 @@ function AddNotes({navigation}){
                 value={doc}
                 
                 />
-      <Text style={{fontSize:17,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Appointment Date</Text>
+      <Text style={{fontSize:20,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Appointment Date</Text>
       <TextInput
                 style={{padding:10,fontSize:17}}
                 placeholder="Enter Appointment Date"
@@ -227,7 +210,7 @@ function AddNotes({navigation}){
                 />
 
 
-      <Text style={{fontSize:17,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Enter Details</Text>
+      <Text style={{fontSize:20 ,fontWeight:'500',paddingVertical:15,paddingHorizontal:10}}>Enter Details</Text>
 
                 <TextInput
                 style={{padding:10,fontSize:17}}

@@ -185,7 +185,6 @@ function AddRemainder({navigation}){
 
     function getColor(){
         if(clr1=="green"){
-            console.log("hatdjhdvfvjhd")
             setSc(1);
         }
         else if(clr2=="green"){
@@ -257,7 +256,7 @@ function AddRemainder({navigation}){
                 <Text style={{fontSize:17,fontWeight:'500'}}>Select Medicine Icon</Text>
                 <View style={{flexDirection:'row'}}>
                     <TouchableOpacity  activeOpacity='0' key={1} onPress={colourHandler1} >
-                        <FontAwesome5 name="tablets" size={40} color={clr1} style={{paddingTop:20} } />
+                        <FontAwesome5 name="capsules" size={40} color={clr1} style={{paddingTop:20} } />
                     </TouchableOpacity>
                     <TouchableOpacity  activeOpacity='0' onPress={colourHandler2} key={2}  >
                         <Fontisto name="tablets" size={40} color={clr2} style={{paddingTop:20,paddingLeft:40}}/>

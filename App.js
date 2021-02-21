@@ -6,24 +6,27 @@ import * as Font from 'expo-font'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation-latest';
 import AuthNavigator from './screens/AuthNavigator';
 import HomeScreen from './screens/HomeScreen.js';
-import firebase from 'firebase'
 import { View } from 'react-native';
 import { Text } from 'react-native';
 
 
+import * as firebase from 'firebase';
+import 'firebase/firestore'
 
 
 
-// var db=firebase.firestore();
-//       db.collection("remainders").get().then((snapshot)=>{
-//           snapshot.docs.forEach(doc=>{
-//               remainders.push(doc.data())
-//               console.log("harsha")
-//               console.log(remainders)
-//     })
-//   });
+export const firebaseConfig = {
+  apiKey: "AIzaSyA-wqHawpX2QfwFDkL58d57n9i6M6BB_-E",
+  authDomain: "medirem-5931a.firebaseapp.com",
+  databaseURL: "https://medirem-5931a-default-rtdb.firebaseio.com",
+  projectId: "medirem-5931a",
+  storageBucket: "medirem-5931a.appspot.com",
+  messagingSenderId: "251646931282",
+  appId: "1:251646931282:web:2a746cbf1b9729dfd4ca8b",
+  measurementId: "G-8JD7T6WJD1"
+};
 
-
+firebase.initializeApp(firebaseConfig);
 
 
 
@@ -57,6 +60,7 @@ export default function App(){
     return <AppContainer/>
   }
   else{
+    
     return (
       <AppLoading
       startAsync={getFonts}

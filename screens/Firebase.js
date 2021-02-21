@@ -1,9 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore'
 
-
-
-
 export const firebaseConfig = {
   apiKey: "AIzaSyA-wqHawpX2QfwFDkL58d57n9i6M6BB_-E",
   authDomain: "medirem-5931a.firebaseapp.com",
@@ -28,6 +25,9 @@ setTimeout(() => {
 }, 1000)
 
 export default firebase;
+
+
+
 
 
 
